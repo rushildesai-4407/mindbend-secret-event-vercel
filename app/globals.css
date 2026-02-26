@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-500: #e21d1d;
+  --color-primary-600: #b51515;
+}
+
+:root {
+  --background: #050505;
+  --foreground: #f3f4f6;
+  --accent: #e21d1d;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for better aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Glowing text utility */
+.text-glow {
+  text-shadow: 0 0 10px rgba(226, 29, 29, 0.5), 0 0 20px rgba(226, 29, 29, 0.3);
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.glitch:before,
+.glitch:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.glitch:before {
+  color: #ff0033;
+  animation: glitchTop 1s infinite linear alternate-reverse;
+  z-index: -1;
+}
+
+.glitch:after {
+  color: #00ccff;
+  animation: glitchBottom 1.2s infinite linear alternate-reverse;
+  z-index: -2;
+}
+
+@keyframes glitchTop {
+  0% {
+    transform: translate(2px, -2px);
+  }
+
+  50% {
+    transform: translate(-2px, 2px);
+  }
+
+  100% {
+    transform: translate(2px, 2px);
+  }
+}
+
+@keyframes glitchBottom {
+  0% {
+    transform: translate(-2px, 0);
+  }
+
+  50% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+/* Floating card particles */
+.card-particle {
+  position: absolute;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.08);
+  animation: float 15s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(100vh) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-30vh) rotate(360deg);
+  }
+}
