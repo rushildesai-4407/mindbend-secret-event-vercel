@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, ShieldAlert, Lock, RefreshCw, LogOut, Skull, User } from "lucide-react";
-import { ITeam } from "@/models/Team";
+// Internal Types omitted on frontend for object spread compatibility
 
 export default function AdminPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
-    const [teams, setTeams] = useState<ITeam[]>([]);
+    const [teams, setTeams] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -47,7 +47,7 @@ export default function AdminPage() {
             if (!res.ok) throw new Error(data.error || "Failed to update role");
 
             // Update local state
-            setTeams(teams.map(t => t._id === id ? { ...t, role: newRole } : t));
+            setTeams(teams.map(t => (t.id || (t as any)._id) === id ? { ...t, role: newRole } : t));
         } catch (err: any) {
             alert("Error: " + err.message);
         }
@@ -146,7 +146,7 @@ export default function AdminPage() {
                                     </tr>
                                 ) : (
                                     teams.map((team) => (
-                                        <tr key={team._id as string} className="hover:bg-neutral-800/50 transition-colors">
+                                        <tr key={team.id || (team as any)._id} className="hover:bg-neutral-800/50 transition-colors">
                                             <td className="p-4 font-mono font-bold text-primary-500 text-lg">{team.teamNumber}</td>
                                             <td className="p-4 font-medium text-base">{team.teamName}</td>
                                             <td className="p-4 text-neutral-300">{team.leaderName}</td>
@@ -157,7 +157,7 @@ export default function AdminPage() {
                                             <td className="p-4">
                                                 <div className="flex flex-col sm:flex-row gap-2">
                                                     <button
-                                                        onClick={() => updateRole(team._id as string, "Crew")}
+                                                        onClick={() => updateRole(team.id || (team as any)._id, "Crew")}
                                                         className={`flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold tracking-wider transition-colors border
                               ${team.role === "Crew"
                                                                 ? "bg-blue-500/20 text-blue-400 border-blue-500"
@@ -166,16 +166,16 @@ export default function AdminPage() {
                                                         <User className="w-3 h-3" /> CREW
                                                     </button>
                                                     <button
-                                                        onClick={() => updateRole(team._id as string, "Imposter")}
+                                                        onClick={() => updateRole(team.id || (team as any)._id, "Imposter")}
                                                         className={`flex items-center justify-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold tracking-wider transition-colors border
-                              ${team.role === "Imposter"
+                               ${team.role === "Imposter"
                                                                 ? "bg-red-500/20 text-red-500 border-red-500"
                                                                 : "bg-neutral-950 text-neutral-500 border-neutral-800 hover:border-red-500 hover:text-red-500"}`}
                                                     >
                                                         <Skull className="w-3 h-3" /> IMPOSTER
                                                     </button>
                                                     <button
-                                                        onClick={() => updateRole(team._id as string, "Unassigned")}
+                                                        onClick={() => updateRole(team.id || (team as any)._id, "Unassigned")}
                                                         className={`flex items-center justify-center px-3 py-1.5 rounded-md text-xs transition-colors border
                               ${team.role === "Unassigned" || !team.role
                                                                 ? "bg-neutral-800 text-white border-neutral-600"

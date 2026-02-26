@@ -1,22 +1,23 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
-import Team from "@/models/Team";
+import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        await dbConnect();
+        const { data: teams, error } = await supabase
+            .from("teams")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-        // Fetch all teams sorted by creation date (newest first)
-        const teams = await Team.find().sort({ createdAt: -1 });
+        if (error) {
+            console.error("Fetch DB Error:", error);
+            return NextResponse.json({ error: "Failed to fetch teams." }, { status: 500 });
+        }
 
-        return NextResponse.json({ success: true, teams }, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching teams for admin:", error);
-        return NextResponse.json(
-            { error: "Failed to fetch teams." },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: true, teams });
+    } catch (error: any) {
+        console.error("Admin fetch error:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

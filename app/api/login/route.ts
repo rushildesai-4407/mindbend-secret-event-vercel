@@ -1,29 +1,32 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import dbConnect from "@/lib/mongodb";
-import Team from "@/models/Team";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(req: Request) {
     try {
-        await dbConnect();
         const { teamNumber, password } = await req.json();
 
         if (!teamNumber || !password) {
             return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
         }
 
-        // Find team by teamNumber
-        // Password is the leaderBirthDate
-        const team = await Team.findOne({
-            teamNumber: teamNumber.toUpperCase(),
-            leaderBirthDate: password
-        });
+        // Check if the input is a Team ID (starts with #) or a Phone Number
+        const input = teamNumber.trim();
+        let query = supabase.from("teams").select("*").eq("leaderBirthDate", password);
 
-        if (!team) {
+        if (input.startsWith("#")) {
+            query = query.eq("teamNumber", input.toUpperCase());
+        } else {
+            query = query.eq("leaderPhone", input);
+        }
+
+        const { data: team, error } = await query.single();
+
+        if (error || !team) {
             return NextResponse.json({ error: "Invalid Team ID or Password" }, { status: 401 });
         }
 
-        // Set a simple cookie for "auth"
+        // Set cookie
         const cookieStore = await cookies();
         cookieStore.set("auth_team", team.teamNumber, {
             httpOnly: true,
@@ -33,7 +36,7 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json({ success: true, teamNumber: team.teamNumber });
-    } catch (error) {
+    } catch (error: any) {
         console.error("Login Error:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }

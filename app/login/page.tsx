@@ -59,10 +59,10 @@ export default function LoginPage() {
 
                 <form onSubmit={handleLogin} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-widest text-neutral-400">Team ID</label>
+                        <label className="text-xs uppercase tracking-widest text-neutral-400">Team ID or Phone Number</label>
                         <input
                             type="text"
-                            placeholder="#001"
+                            placeholder="#001 or +123456789"
                             required
                             value={teamNumber}
                             onChange={(e) => setTeamNumber(e.target.value)}
