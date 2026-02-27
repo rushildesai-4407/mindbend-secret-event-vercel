@@ -7,16 +7,16 @@ export const dynamic = "force-dynamic";
 export async function GET() {
     try {
         const cookieStore = await cookies();
-        const teamNumber = cookieStore.get("auth_team")?.value;
+        const rawTeamId = cookieStore.get("auth_team")?.value;
 
-        if (!teamNumber) {
+        if (!rawTeamId) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const { data: team, error } = await supabase
             .from("teams")
             .select("*")
-            .eq("teamNumber", teamNumber)
+            .eq("id", rawTeamId)
             .single();
 
         if (error || !team) {

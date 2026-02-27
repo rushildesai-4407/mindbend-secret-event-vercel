@@ -32,16 +32,15 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Invalid Team ID or Password" }, { status: 401 });
         }
 
-        // Set cookie
-        const cookieStore = await cookies();
-        cookieStore.set("auth_team", team.teamNumber, {
+        const response = NextResponse.json({ success: true, teamNumber: team.teamNumber });
+        response.cookies.set("auth_team", team.id, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             maxAge: 60 * 60 * 24 * 3, // 3 days
             path: "/",
         });
 
-        return NextResponse.json({ success: true, teamNumber: team.teamNumber });
+        return response;
     } catch (error: any) {
         console.error("Login Error:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
