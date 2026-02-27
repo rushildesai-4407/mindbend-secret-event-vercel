@@ -49,7 +49,7 @@ export function CountdownTimer() {
     ];
 
     return (
-        <div className="z-10 mt-12 flex w-full max-w-3xl justify-center gap-4 sm:gap-8">
+        <div className="z-10 mt-12 flex w-full max-w-3xl justify-center gap-2 sm:gap-4 md:gap-8 px-2">
             {timeBlocks.map((block, index) => (
                 <motion.div
                     key={block.label}
@@ -58,8 +58,8 @@ export function CountdownTimer() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
                 >
-                    <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-900/50 shadow-[0_0_15px_rgba(226,29,29,0.1)] backdrop-blur-sm sm:h-24 sm:w-24">
-                        <span className="text-2xl font-bold font-mono text-white sm:text-4xl">
+                    <div className="flex h-14 w-14 sm:h-16 sm:w-16 md:h-24 md:w-24 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-900/50 shadow-[0_0_15px_rgba(226,29,29,0.1)] backdrop-blur-sm">
+                        <span className="text-xl sm:text-2xl font-bold font-mono text-white md:text-4xl">
                             {block.value.toString().padStart(2, "0")}
                         </span>
                     </div>

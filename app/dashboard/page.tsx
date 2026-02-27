@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, LogOut, User, Skull } from "lucide-react";
+import { Loader2, LogOut, User, Skull, QrCode } from "lucide-react";
 import { motion } from "framer-motion";
+import QRCode from "react-qr-code";
 
 export default function DashboardPage() {
     const [team, setTeam] = useState<any>(null);
@@ -88,10 +89,10 @@ export default function DashboardPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
                     className={`relative overflow-hidden rounded-2xl border p-10 text-center ${isImposter
-                            ? "bg-red-950/20 border-red-500/50 shadow-[0_0_50px_rgba(226,29,29,0.15)]"
-                            : isCrew
-                                ? "bg-blue-950/20 border-blue-500/50 shadow-[0_0_50px_rgba(0,100,255,0.15)]"
-                                : "bg-neutral-900 border-neutral-700"
+                        ? "bg-red-950/20 border-red-500/50 shadow-[0_0_50px_rgba(226,29,29,0.15)]"
+                        : isCrew
+                            ? "bg-blue-950/20 border-blue-500/50 shadow-[0_0_50px_rgba(0,100,255,0.15)]"
+                            : "bg-neutral-900 border-neutral-700"
                         }`}
                 >
                     {/* Background Indicator */}
@@ -135,10 +136,15 @@ export default function DashboardPage() {
                 </motion.div>
 
                 <div className="grid sm:grid-cols-2 gap-6 mt-8">
-                    <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500 mb-4">TEAM ROSTER</h3>
-                        <p className="text-white text-lg font-medium">{team.teamName}</p>
-                        <p className="text-neutral-400 mt-1">Leader: {team.leaderName}</p>
+                    <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6 relative overflow-hidden flex flex-col items-center justify-center">
+                        <div className="absolute top-4 left-4">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500 mb-4">DIGITAL PASS</h3>
+                        </div>
+                        <div className="bg-white p-3 rounded-xl mt-6">
+                            <QRCode value={team.teamNumber} size={100} bgColor="#ffffff" fgColor="#000000" />
+                        </div>
+                        <p className="mt-4 text-white text-lg font-medium">{team.teamName}</p>
+                        <p className="text-neutral-400 mt-1 text-sm">Leader: {team.leaderName}</p>
                     </div>
 
                     <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">

@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cinzel, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
-import { FloatingCards } from "@/components/FloatingCards";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
   subsets: ["latin"],
+  weight: ["500", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["300", "400", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "52 Before Zero",
-  description: "Trust No One. Time is running out.",
+  title: "52 BEFORE ZERO",
+  description: "Survive the Deck. Reach the Crown.",
 };
 
 export default function RootLayout({
@@ -26,10 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <FloatingCards />
+      <body className={`${cinzel.variable} ${montserrat.variable} antialiased font-montserrat`}>
+        {/* We removed the floating cards as requested by the new clean aesthetic */}
         <Navbar />
         {children}
       </body>

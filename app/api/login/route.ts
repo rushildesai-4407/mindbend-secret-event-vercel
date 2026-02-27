@@ -10,13 +10,19 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
         }
 
-        // Check if the input is a Team ID (starts with #) or a Phone Number
-        const input = teamNumber.trim();
+        // Check if the input is a Team ID (with or without #) or a Phone Number
+        let input = teamNumber.trim();
         let query = supabase.from("teams").select("*").eq("leaderBirthDate", password);
 
-        if (input.startsWith("#")) {
-            query = query.eq("teamNumber", input.toUpperCase());
+        // If it looks like a short number (e.g. "042" or "42" or "#42"), format it as a Team ID
+        const isLikelyTeamId = input.startsWith("#") || (input.length <= 4 && !isNaN(Number(input)));
+
+        if (isLikelyTeamId) {
+            // Ensure it has the # prefix and minimum 3 digits padding if they just typed "1"
+            let formattedId = input.startsWith("#") ? input : `#${input.padStart(3, "0")}`;
+            query = query.eq("teamNumber", formattedId.toUpperCase());
         } else {
+            // Otherwise, treat it as a phone number query
             query = query.eq("leaderPhone", input);
         }
 

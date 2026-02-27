@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, ShieldAlert, Lock, RefreshCw, LogOut, Skull, User } from "lucide-react";
+import { Loader2, ShieldAlert, Lock, RefreshCw, LogOut, Skull, User, Users, AlertTriangle } from "lucide-react";
 // Internal Types omitted on frontend for object spread compatibility
 
 export default function AdminPage() {
@@ -118,6 +118,33 @@ export default function AdminPage() {
                         </button>
                     </div>
                 </header>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col">
+                        <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                            <Users className="w-4 h-4 text-blue-400" /> Total Registrations
+                        </span>
+                        <span className="text-4xl font-black text-white">{teams.length}</span>
+                    </div>
+                    <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col">
+                        <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                            <User className="w-4 h-4 text-blue-500" /> Assigned Crew
+                        </span>
+                        <span className="text-4xl font-black text-blue-400">{teams.filter(t => t.role === "Crew").length}</span>
+                    </div>
+                    <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col">
+                        <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                            <Skull className="w-4 h-4 text-red-500" /> Assigned Imposters
+                        </span>
+                        <span className="text-4xl font-black text-red-500">{teams.filter(t => t.role === "Imposter").length}</span>
+                    </div>
+                    <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl flex flex-col">
+                        <span className="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                            <AlertTriangle className="w-4 h-4 text-yellow-500" /> Pending Action
+                        </span>
+                        <span className="text-4xl font-black text-yellow-500">{teams.filter(t => t.role === "Unassigned" || !t.role).length}</span>
+                    </div>
+                </div>
 
                 {error && (
                     <div className="bg-red-500/10 border border-red-500 text-red-500 p-4 rounded-lg">

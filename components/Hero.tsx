@@ -11,7 +11,7 @@ export function Hero() {
 
       <div className="flex flex-col items-center gap-6">
         <motion.h1
-          className="text-glow max-w-4xl text-5xl font-extrabold tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl text-white glitch"
+          className="text-glow max-w-4xl text-5xl font-extrabold tracking-tighter xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white glitch leading-tight md:leading-none"
           data-text="52 BEFORE ZERO"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
