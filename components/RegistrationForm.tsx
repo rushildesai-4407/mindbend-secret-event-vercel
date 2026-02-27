@@ -43,29 +43,34 @@ export function RegistrationForm() {
 
     if (success && teamNumber) {
         return (
-            <div className="w-full text-center py-10">
-                <h3 className="text-[25px] font-medium text-white mb-2">Registration Complete</h3>
-                <p className="text-[#b3b3b3] text-base mb-6">Your team is registered. Join the official comms channel below.</p>
+            <div className="w-full max-w-[600px] bg-[#0a0a0f] border border-white/10 rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] mx-auto text-center z-10 relative flex items-center flex-col gap-3">
+                <h3 className="text-glow text-white text-3xl font-cinzel font-bold tracking-widest uppercase mb-2">
+                    Registration Complete
+                </h3>
+                <p className="text-neutral-400 text-sm mb-6 font-medium tracking-wide">
+                    Your team is registered. Join the official comms channel below.
+                </p>
 
-                <div className="py-8 bg-[#0a0a0f] border border-white/10 rounded-lg max-w-sm mx-auto shadow-lg mb-6">
-                    <span className="text-sm text-neutral-500 font-medium block mb-2">Team Number</span>
-                    <span className="text-4xl font-bold text-[#00f3ff]">{teamNumber}</span>
+                <div className="py-8 w-full bg-[#050508] border border-white/5 rounded-xl max-w-sm mx-auto shadow-inner mb-6 relative overflow-hidden">
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#00f3ff] to-[#9d00ff]"></div>
+                    <span className="text-xs text-neutral-500 font-bold block mb-2 uppercase tracking-[3px]">Team Number</span>
+                    <span className="text-5xl font-cinzel font-bold text-[#00f3ff] tracking-wider text-glow">{teamNumber}</span>
                 </div>
 
                 <a
                     href="https://chat.whatsapp.com/IqcVVG4sS3XGV6vqrrXUHM"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block w-full max-w-sm h-[45px] leading-[45px] text-[16px] font-medium rounded bg-[#25D366] hover:bg-[#128C7E] text-white tracking-[1px] transition-all mb-2"
+                    className="inline-flex justify-center items-center w-full max-w-sm h-12 bg-[#25D366]/90 border border-[#25D366]/50 hover:bg-[#25D366] text-white text-sm font-bold tracking-[2px] uppercase rounded-lg transition-all mb-4"
                 >
-                    Join WhatsApp Community
+                    Join WhatsApp Group
                 </a>
 
                 <br />
 
                 <button
                     onClick={() => window.location.reload()}
-                    className="mt-6 text-neutral-400 hover:text-white transition-colors text-sm underline"
+                    className="mt-4 text-neutral-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-[2px]"
                 >
                     Register Another Team
                 </button>
@@ -74,51 +79,49 @@ export function RegistrationForm() {
     }
 
     return (
-        <div className="w-full max-w-[700px] bg-[#0a0a0f] rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] overflow-hidden mx-auto border border-white/10">
-            <div className="p-[25px] bg-[#11111a] border-b border-white/5 relative">
-                <p className="text-[25px] font-medium text-white relative inline-block">
+        <div className="w-full max-w-[800px] bg-[#0a0a0f] border border-white/10 rounded-xl p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] mx-auto relative z-10 transition-all overflow-hidden">
+            {/* Ambient Background Glow matching Homepage */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#00f3ff]/5 blur-[80px] rounded-full z-0 pointer-events-none" />
+
+            <div className="flex justify-between items-center mb-8 pb-4 border-b border-white/5 relative z-10">
+                <h2 className="text-glow text-white text-2xl sm:text-3xl font-cinzel font-bold tracking-[4px] uppercase">
                     Registration
-                </p>
+                </h2>
             </div>
 
-            <form onSubmit={handleSubmit}>
-                <div className="p-[25px]">
-                    <div className="mb-6 bg-cyan-900/20 border border-cyan-500/30 p-4 rounded text-cyan-100 text-sm text-center">
-                        <strong>Important:</strong> Exactly 4 members should be in the team (Leader + 3 Members).
-                    </div>
+            <form onSubmit={handleSubmit} className="relative z-10">
+                <div className="mb-8 bg-[#050508] border border-blue-500/30 p-4 rounded-lg text-blue-200/80 text-sm md:text-base text-center tracking-wide font-medium shadow-inner">
+                    <strong className="text-blue-400">INFO:</strong> Exactly 4 members should be in the team (Leader + 3 Members).
+                </div>
 
-                    <h3 className="text-lg font-medium text-white mb-4">Primary Details</h3>
-                    <div className="flex flex-wrap gap-[20px]">
-                        <InputField label="Team Name" id="teamName" type="text" placeholder="Enter team name" required />
-                        <InputField label="Leader Name" id="leaderName" type="text" placeholder="Enter full name" required />
-                        <InputField label="Leader Phone" id="leaderPhone" type="tel" placeholder="Enter phone number" required />
-                        <InputField label="Date of Birth" id="leaderBirthDate" type="date" placeholder="" required />
-                    </div>
+                <h3 className="text-neutral-400 text-sm font-bold tracking-[3px] uppercase mb-5">Primary Details</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                    <InputField label="Team Name" id="teamName" type="text" placeholder="Enter team name" required />
+                    <InputField label="Leader Name" id="leaderName" type="text" placeholder="Enter full name" required />
+                    <InputField label="Leader Phone" id="leaderPhone" type="tel" placeholder="Enter phone number" required />
+                    <InputField label="Date of Birth" id="leaderBirthDate" type="date" placeholder="" required />
+                </div>
 
-                    <h3 className="text-lg font-medium text-white mb-4 mt-8">Team Members</h3>
-                    <div className="flex flex-wrap gap-[20px]">
-                        <InputField label="Member 1 Name" id="mem1Name" type="text" placeholder="Enter name" />
-                        <InputField label="Member 1 Phone" id="mem1Phone" type="tel" placeholder="Enter phone" />
-                        <InputField label="Member 2 Name" id="mem2Name" type="text" placeholder="Enter name" />
-                        <InputField label="Member 2 Phone" id="mem2Phone" type="tel" placeholder="Enter phone" />
-                        <InputField label="Member 3 Name" id="mem3Name" type="text" placeholder="Enter name" />
-                        <InputField label="Member 3 Phone" id="mem3Phone" type="tel" placeholder="Enter phone" />
-                    </div>
+                <h3 className="text-neutral-400 text-sm font-bold tracking-[3px] uppercase mb-5 pb-2 border-b border-white/5">Team Members</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-1 gap-6">
+                    <InputField label="Member 1 Name" id="mem1Name" type="text" placeholder="Enter name" />
+                    <InputField label="Member 2 Name" id="mem2Name" type="text" placeholder="Enter name" />
+                    <InputField label="Member 3 Name" id="mem3Name" type="text" placeholder="Enter name" />
                 </div>
 
                 {error && (
-                    <div className="px-[25px]">
-                        <p className="text-red-400 text-sm bg-red-400/10 p-3 rounded">{error}</p>
+                    <div className="mt-8 bg-red-900/20 border border-red-500/30 p-4 rounded-lg text-red-400 text-sm font-medium tracking-wide text-center">
+                        {error}
                     </div>
                 )}
 
-                <div className="p-[25px] mt-[15px]">
+                <div className="mt-10 pt-8 border-t border-white/5">
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full h-[45px] border-none text-[18px] font-medium cursor-pointer rounded bg-gradient-to-r from-[#00f3ff] to-[#9d00ff] text-white tracking-[1px] hover:from-[#9d00ff] hover:to-[#00f3ff] transition-all disabled:opacity-50"
+                        className="w-full bg-[#00f3ff]/10 border border-[#00f3ff]/50 rounded-lg p-4 text-[#00f3ff] text-base font-bold tracking-[3px] uppercase hover:bg-[#00f3ff]/20 hover:shadow-[0_0_20px_rgba(0,243,255,0.3)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? "Submitting..." : "Register"}
+                        {isSubmitting ? "Submitting..." : "Initialize Registration"}
                     </button>
                 </div>
             </form>
@@ -128,17 +131,19 @@ export function RegistrationForm() {
 
 function InputField({ label, id, type, placeholder, required = false }: { label: string, id: string, type: string, placeholder: string, required?: boolean }) {
     return (
-        <div className="w-full sm:w-[calc(50%-10px)] mb-[12px]">
-            <label htmlFor={id} className="font-medium text-white mb-[5px] block text-sm">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
+        <div className="mb-2">
+            <div className="flex justify-between items-center mb-2">
+                <label htmlFor={id} className="text-neutral-300 text-sm font-semibold tracking-wide">
+                    {label} {required && <span className="text-[#00f3ff] ml-1">*</span>}
+                </label>
+            </div>
             <input
                 id={id}
                 name={id}
                 type={type}
                 placeholder={placeholder}
                 required={required}
-                className="w-full h-[45px] border-none outline-none rounded bg-[#151520] text-base px-[15px] text-white shadow-[0_0_0_1px_rgba(255,255,255,0.1)] focus:shadow-[0_0_0_2px_#00f3ff] transition-all duration-150 placeholder:text-neutral-500"
+                className="w-full bg-[#11111a] border border-white/10 rounded-lg py-3 px-4 text-white text-base tracking-wide transition-all focus:outline-none focus:bg-[#151520] focus:border-[#00f3ff]/50 hover:bg-[#151520] hover:border-white/20 placeholder:text-neutral-600 font-medium"
                 style={{ colorScheme: "dark" }}
             />
         </div>

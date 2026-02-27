@@ -50,68 +50,59 @@ export default function DashboardPage() {
     const isImposter = team.role === "Imposter";
 
     return (
-        <main className="min-h-screen bg-[#050508] text-white p-6 lg:p-12">
-            <div className="max-w-[900px] mx-auto"  style={{"margin": "0 auto"}}>
-                <header className="flex justify-between items-center mb-10 bg-[#0a0a0f] p-[25px] rounded-lg border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative overflow-hidden">
-                    <div className="relative z-10">
-                        <p className="text-[25px] font-medium text-white relative inline-block">
+        <main className="min-h-screen bg-[#050508] text-white p-6 lg:p-12 relative overflow-hidden">
+            {/* Ambient Background Glow matching Homepage */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00f3ff]/5 blur-[150px] rounded-full z-0 pointer-events-none" />
+
+            <div className="max-w-[900px] mx-auto relative z-10" style={{ "margin": "0 auto" }}>
+                <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 bg-[#0a0a0f] p-8 rounded-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] gap-6">
+                    <div>
+                        <h2 className="text-glow text-white text-2xl sm:text-3xl font-cinzel font-bold tracking-[4px] uppercase relative inline-block">
                             Team Output
                             <span className="absolute bottom-[-10px] left-0 w-[40px] h-[3px] bg-gradient-to-r from-[#00f3ff] to-[#9d00ff]"></span>
+                        </h2>
+                        <p className="text-neutral-500 mt-4 tracking-widest text-sm uppercase">
+                            <span className="text-white font-bold">{team.teamName}</span> / <span className="text-[#00f3ff]">{team.teamNumber}</span>
                         </p>
-                        <p className="text-neutral-500 mt-4 font-mono">{team.teamName} / {team.teamNumber}</p>
                     </div>
-                    <button onClick={handleLogout} className="relative z-10 flex items-center gap-2 text-neutral-400 hover:text-white transition-colors bg-[#151520] px-4 py-2 rounded border border-white/5">
-                        <LogOut className="w-4 h-4" /> Logout
+                    <button onClick={handleLogout} className="flex items-center gap-2 text-neutral-400 hover:text-red-400 transition-colors bg-[#11111a] hover:bg-[#151520] px-5 py-3 rounded-lg border border-white/5 hover:border-red-500/30 text-xs font-bold tracking-[2px] uppercase">
+                        <LogOut className="w-4 h-4" /> Terminate Session
                     </button>
-                    {/* Subtle ambient accent directly in the header */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/5 blur-[50px] rounded-full z-0 pointer-events-none" />
                 </header>
 
                 <div className="grid md:grid-cols-1 gap-[20px]">
                     {/* Role Block */}
-                    <div className="bg-[#0a0a0f] border border-white/10 rounded-lg p-[30px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex flex-col justify-center min-h-[300px] relative overflow-hidden">
-                        <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[80px] z-0 pointer-events-none ${isImposter ? 'bg-red-500/20' : 'bg-[#00f3ff]/20'}`} />
+                    <div className="bg-[#0a0a0f] border border-white/10 rounded-xl p-8 sm:p-10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col justify-center min-h-[300px] relative overflow-hidden">
+                        <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-[100px] z-0 pointer-events-none ${isImposter ? 'bg-red-500/10' : 'bg-[#00f3ff]/10'}`} />
 
                         <div className="relative z-10">
-                            <span className="text-xs uppercase tracking-widest text-[#b3b3b3] font-medium block mb-4">Assigned Role</span>
+                            <span className="text-xs uppercase tracking-[3px] text-neutral-500 font-bold block mb-6 outline-none">Assigned Role</span>
                             {(!team.role || team.role === "Unassigned") ? (
                                 <div>
-                                    <h2 className="text-4xl text-white font-medium mb-3">Pending</h2>
-                                    <p className="text-[#b3b3b3] text-base leading-relaxed">System has not broadcasted assignment. Stand by.</p>
+                                    <h2 className="text-glow text-5xl font-cinzel font-bold text-white mb-4 tracking-widest uppercase">Pending</h2>
+                                    <p className="text-neutral-400 text-base tracking-wide font-medium">System has not broadcasted assignment. Stand by.</p>
                                 </div>
                             ) : (
                                 <div>
-                                    <h2 className={`text-5xl font-bold uppercase mb-4 tracking-tight ${isImposter ? "text-red-500" : "text-[#00f3ff]"}`}>
+                                    <h2 className={`text-glow text-6xl sm:text-7xl font-cinzel font-bold uppercase mb-4 tracking-widest ${isImposter ? "text-red-500" : "text-[#00f3ff]"}`}>
                                         {team.role}
                                     </h2>
-                                    <p className="text-[#b3b3b3] text-base leading-relaxed">
+                                    <p className="text-neutral-300 text-base sm:text-lg tracking-wide font-medium">
                                         {isImposter ? "Objective: Subvert and eliminate. Remain undetected." : "Objective: Maintain logic and complete protocols."}
                                     </p>
                                 </div>
                             )}
                         </div>
                     </div>
-
-                    {/* Pass Block */}
-                    {/* <div className="bg-[#0a0a0f] border border-white/10 rounded-lg p-[30px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex flex-col justify-between">
-                        <div>
-                            <span className="text-xs uppercase tracking-widest text-[#b3b3b3] font-medium block mb-6">Digital Pass</span>
-                            <div className="bg-white p-4 w-fit rounded shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-                                <QRCode value={team.teamNumber} size={130} bgColor="#ffffff" fgColor="#000000" />
-                            </div>
-                        </div>
-                        <div className="mt-8 border-t border-white/5 pt-4">
-                            <p className="text-xl font-medium text-white">{team.teamName}</p>
-                            <p className="text-[#b3b3b3] text-base mt-1">Lead: {team.leaderName}</p>
-                        </div>
-                    </div> */}
                 </div>
-                <div className="mt-[20px] bg-[#0a0a0f] border border-[#25D366]/30 rounded-lg p-[25px] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+
+                <div className="mt-8 bg-[#0a0a0f] border border-[#25D366]/30 rounded-xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#25D366]/50 to-transparent"></div>
                     <div>
-                        <h3 className="text-lg font-medium text-white">Official Comms Channel</h3>
-                        <p className="text-sm text-[#b3b3b3] mt-1">Important updates and protocol changes will be broadcasted here.</p>
+                        <h3 className="text-xl font-bold text-white tracking-widest uppercase font-cinzel text-glow mb-2">Official Comms Channel</h3>
+                        <p className="text-sm text-neutral-400 font-medium tracking-wide">Important updates and protocol changes will be broadcasted here.</p>
                     </div>
-                    <a href="https://chat.whatsapp.com/IqcVVG4sS3XGV6vqrrXUHM" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-[#25D366] hover:bg-[#128C7E] text-white font-medium rounded transition-colors whitespace-nowrap">
+                    <a href="https://chat.whatsapp.com/IqcVVG4sS3XGV6vqrrXUHM" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-[#25D366]/10 border border-[#25D366]/50 hover:bg-[#25D366]/20 hover:shadow-[0_0_20px_rgba(37,211,102,0.3)] text-[#25D366] font-bold text-sm tracking-[2px] uppercase rounded-lg transition-all whitespace-nowrap">
                         Join WhatsApp
                     </a>
                 </div>

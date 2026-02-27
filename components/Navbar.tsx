@@ -60,7 +60,7 @@ export function Navbar() {
                         width={200}
                         height={120}
                         priority
-                        className="object-contain h-12 md:h-30 w-auto"
+                        className="object-contain h-12 md:h-20 w-auto"
                     />
                     {/* Refined, softer glow that tracks with the text */}
                     <span className="absolute -inset-1 blur-xl opacity-0 group-hover:opacity-30 bg-gradient-to-r from-cyan-400 to-purple-500 transition-opacity duration-500 rounded-full z-[-1]"></span>
