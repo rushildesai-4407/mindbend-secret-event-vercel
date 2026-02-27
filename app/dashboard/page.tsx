@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, LogOut, User, Skull, QrCode } from "lucide-react";
-import { motion } from "framer-motion";
 import QRCode from "react-qr-code";
+import Link from "next/link";
+import { LogOut } from "lucide-react";
 
 export default function DashboardPage() {
     const [team, setTeam] = useState<any>(null);
@@ -20,10 +20,7 @@ export default function DashboardPage() {
         try {
             const res = await fetch("/api/me");
             if (!res.ok) {
-                if (res.status === 401) {
-                    router.push("/login"); // Redirect to login if not authenticated
-                    return;
-                }
+                if (res.status === 401) return router.push("/login");
                 throw new Error("Failed to load profile");
             }
             const data = await res.json();
@@ -35,125 +32,88 @@ export default function DashboardPage() {
         }
     };
 
-    const handleLogout = async () => {
-        // Basic client-side clear for demonstration since we used httpOnly cookies.
-        // Ideally, call an API to clear the cookie.
+    const handleLogout = () => {
         document.cookie = "auth_team=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         router.push("/");
     };
 
-    if (loading) {
-        return (
-            <main className="min-h-screen flex items-center justify-center bg-black text-white relative z-10 w-full">
-                <Loader2 className="w-10 h-10 animate-spin text-primary-500" />
-            </main>
-        );
-    }
-
-    if (error || !team) {
-        return (
-            <main className="min-h-screen flex items-center justify-center bg-black text-white p-4 relative z-10 w-full">
-                <div className="bg-neutral-900 border border-neutral-800 p-8 rounded-xl text-center">
-                    <p className="text-red-500 mb-4">{error || "Could not load data"}</p>
-                    <button onClick={() => router.push("/login")} className="text-blue-400 hover:underline">
-                        Return to Login
-                    </button>
-                </div>
-            </main>
-        );
-    }
+    if (loading) return <main className="min-h-screen bg-[#050508] flex items-center justify-center text-white text-xl">Loading Dataset...</main>;
+    if (error || !team) return (
+        <main className="min-h-screen bg-[#050508] flex items-center justify-center p-4">
+            <div className="bg-[#0a0a0f] p-8 border border-white/10 rounded-lg text-center max-w-sm w-full">
+                <p className="text-red-400 mb-6">{error}</p>
+                <button onClick={() => router.push("/login")} className="w-full h-[45px] bg-[#151520] text-white rounded hover:bg-[#1a1a25] transition-colors border border-white/10">Return to Login</button>
+            </div>
+        </main>
+    );
 
     const isImposter = team.role === "Imposter";
-    const isCrew = team.role === "Crew";
 
     return (
-        <main className="min-h-screen bg-black text-white p-4 sm:p-8 pt-24 relative z-10 w-full">
-            <div className="max-w-4xl mx-auto space-y-8">
-
-                <header className="flex justify-between items-center border-b border-neutral-800 pb-6 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-widest text-glow">TEAM DASHBOARD</h1>
-                        <p className="text-neutral-400 font-mono mt-1">ID: {team.teamNumber}</p>
+        <main className="min-h-screen bg-[#050508] text-white p-6 lg:p-12">
+            <div className="max-w-[900px] mx-auto"  style={{"margin": "0 auto"}}>
+                <header className="flex justify-between items-center mb-10 bg-[#0a0a0f] p-[25px] rounded-lg border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)] relative overflow-hidden">
+                    <div className="relative z-10">
+                        <p className="text-[25px] font-medium text-white relative inline-block">
+                            Team Output
+                            <span className="absolute bottom-[-10px] left-0 w-[40px] h-[3px] bg-gradient-to-r from-[#00f3ff] to-[#9d00ff]"></span>
+                        </p>
+                        <p className="text-neutral-500 mt-4 font-mono">{team.teamName} / {team.teamNumber}</p>
                     </div>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        <span className="hidden sm:inline">DISCONNECT</span>
+                    <button onClick={handleLogout} className="relative z-10 flex items-center gap-2 text-neutral-400 hover:text-white transition-colors bg-[#151520] px-4 py-2 rounded border border-white/5">
+                        <LogOut className="w-4 h-4" /> Logout
                     </button>
+                    {/* Subtle ambient accent directly in the header */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/5 blur-[50px] rounded-full z-0 pointer-events-none" />
                 </header>
 
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className={`relative overflow-hidden rounded-2xl border p-10 text-center ${isImposter
-                        ? "bg-red-950/20 border-red-500/50 shadow-[0_0_50px_rgba(226,29,29,0.15)]"
-                        : isCrew
-                            ? "bg-blue-950/20 border-blue-500/50 shadow-[0_0_50px_rgba(0,100,255,0.15)]"
-                            : "bg-neutral-900 border-neutral-700"
-                        }`}
-                >
-                    {/* Background Indicator */}
-                    <div className="absolute inset-0 z-0 flex items-center justify-center opacity-5 pointer-events-none">
-                        {isImposter ? <Skull className="w-96 h-96" /> : <User className="w-96 h-96" />}
-                    </div>
+                <div className="grid md:grid-cols-1 gap-[20px]">
+                    {/* Role Block */}
+                    <div className="bg-[#0a0a0f] border border-white/10 rounded-lg p-[30px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex flex-col justify-center min-h-[300px] relative overflow-hidden">
+                        <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-[80px] z-0 pointer-events-none ${isImposter ? 'bg-red-500/20' : 'bg-[#00f3ff]/20'}`} />
 
-                    <div className="relative z-10">
-                        <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-400 mb-2">
-                            ASSIGNED PROTOCOL ROLE
-                        </h2>
-
-                        {!isImposter && !isCrew ? (
-                            <div className="py-12">
-                                <h3 className="text-4xl sm:text-6xl font-black tracking-tighter text-neutral-600 animate-pulse">
-                                    PENDING ASSIGNMENT
-                                </h3>
-                                <p className="mt-4 text-neutral-500 max-w-md mx-auto">
-                                    Your roles have not yet been assigned by the Game Masters. Please check back later.
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="py-8">
-                                <h3 className={`text-6xl sm:text-8xl font-black tracking-tighter uppercase mb-6 ${isImposter ? "text-primary-500 text-glow" : "text-blue-500"
-                                    }`}>
-                                    {team.role}
-                                </h3>
-
-                                {isImposter ? (
-                                    <p className="text-xl text-red-400 font-medium max-w-xl mx-auto">
-                                        Your objective is sabotage and elimination. Trust no one. Betrayal is your only path to victory.
+                        <div className="relative z-10">
+                            <span className="text-xs uppercase tracking-widest text-[#b3b3b3] font-medium block mb-4">Assigned Role</span>
+                            {(!team.role || team.role === "Unassigned") ? (
+                                <div>
+                                    <h2 className="text-4xl text-white font-medium mb-3">Pending</h2>
+                                    <p className="text-[#b3b3b3] text-base leading-relaxed">System has not broadcasted assignment. Stand by.</p>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h2 className={`text-5xl font-bold uppercase mb-4 tracking-tight ${isImposter ? "text-red-500" : "text-[#00f3ff]"}`}>
+                                        {team.role}
+                                    </h2>
+                                    <p className="text-[#b3b3b3] text-base leading-relaxed">
+                                        {isImposter ? "Objective: Subvert and eliminate. Remain undetected." : "Objective: Maintain logic and complete protocols."}
                                     </p>
-                                ) : (
-                                    <p className="text-xl text-blue-300 font-medium max-w-xl mx-auto">
-                                        Complete tasks. Survive the protocol. Identify the imposters before it&apos;s too late.
-                                    </p>
-                                )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Pass Block */}
+                    {/* <div className="bg-[#0a0a0f] border border-white/10 rounded-lg p-[30px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex flex-col justify-between">
+                        <div>
+                            <span className="text-xs uppercase tracking-widest text-[#b3b3b3] font-medium block mb-6">Digital Pass</span>
+                            <div className="bg-white p-4 w-fit rounded shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+                                <QRCode value={team.teamNumber} size={130} bgColor="#ffffff" fgColor="#000000" />
                             </div>
-                        )}
-                    </div>
-                </motion.div>
-
-                <div className="grid sm:grid-cols-2 gap-6 mt-8">
-                    <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6 relative overflow-hidden flex flex-col items-center justify-center">
-                        <div className="absolute top-4 left-4">
-                            <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500 mb-4">DIGITAL PASS</h3>
                         </div>
-                        <div className="bg-white p-3 rounded-xl mt-6">
-                            <QRCode value={team.teamNumber} size={100} bgColor="#ffffff" fgColor="#000000" />
+                        <div className="mt-8 border-t border-white/5 pt-4">
+                            <p className="text-xl font-medium text-white">{team.teamName}</p>
+                            <p className="text-[#b3b3b3] text-base mt-1">Lead: {team.leaderName}</p>
                         </div>
-                        <p className="mt-4 text-white text-lg font-medium">{team.teamName}</p>
-                        <p className="text-neutral-400 mt-1 text-sm">Leader: {team.leaderName}</p>
+                    </div> */}
+                </div>
+                <div className="mt-[20px] bg-[#0a0a0f] border border-[#25D366]/30 rounded-lg p-[25px] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                    <div>
+                        <h3 className="text-lg font-medium text-white">Official Comms Channel</h3>
+                        <p className="text-sm text-[#b3b3b3] mt-1">Important updates and protocol changes will be broadcasted here.</p>
                     </div>
-
-                    <div className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-500 mb-4">STATUS</h3>
-                        <div className="flex items-center gap-3">
-                            <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                            <span className="text-white font-medium">System Connected</span>
-                        </div>
-                    </div>
+                    <a href="https://chat.whatsapp.com/IqcVVG4sS3XGV6vqrrXUHM" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-[#25D366] hover:bg-[#128C7E] text-white font-medium rounded transition-colors whitespace-nowrap">
+                        Join WhatsApp
+                    </a>
                 </div>
 
             </div>

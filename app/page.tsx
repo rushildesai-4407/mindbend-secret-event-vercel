@@ -88,7 +88,6 @@ export default function Home() {
           <ul>
             <li>Hidden Operatives deployed</li>
             <li>Strategy & active deception required</li>
-            <li>Admin-controlled visibility shifts</li>
           </ul>
         </div>
 
@@ -111,7 +110,6 @@ export default function Home() {
         <h2 className="section-title glow-text">Command & Control</h2>
         <div className="terminal-box">
           <ul>
-            <li>Accessing Admin Dashboard...</li>
             <li>Unlocking Protocols: Day 2 & Day 3</li>
             <li>Assigning Operative Roles</li>
             <li>Designating ♠ ♥ ♦ ♣ Zones</li>

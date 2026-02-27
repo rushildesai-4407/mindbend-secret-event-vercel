@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [showNav, setShowNav] = useState(true);
     const [scrolled, setScrolled] = useState(false);
@@ -32,6 +34,8 @@ export function Navbar() {
         window.addEventListener("scroll", controlNavbar);
         return () => window.removeEventListener("scroll", controlNavbar);
     }, [lastScrollY]);
+
+    if (pathname !== "/") return null;
 
     return (
         <nav

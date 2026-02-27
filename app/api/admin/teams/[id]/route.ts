@@ -28,3 +28,24 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
+
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
+    try {
+        const { id } = await context.params;
+
+        const { error } = await supabase
+            .from("teams")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+            console.error("Delete DB Error:", error);
+            return NextResponse.json({ error: "Failed to delete team." }, { status: 500 });
+        }
+
+        return NextResponse.json({ success: true });
+    } catch (error: any) {
+        console.error("Error deleting team:", error);
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    }
+}
