@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 export function Navbar() {
     const pathname = usePathname();
@@ -53,9 +54,14 @@ export function Navbar() {
                     href="/"
                     className="group relative flex items-center gap-2"
                 >
-                    <span className="font-cinzel text-white tracking-[4px] font-bold text-lg md:text-xl transition-all duration-300">
-                        52 BEFORE ZERO
-                    </span>
+                    <Image
+                        src="/mindbend-logo-removebg-preview.png"
+                        alt="Mindbend Logo"
+                        width={200}
+                        height={120}
+                        priority
+                        className="object-contain h-12 md:h-30 w-auto"
+                    />
                     {/* Refined, softer glow that tracks with the text */}
                     <span className="absolute -inset-1 blur-xl opacity-0 group-hover:opacity-30 bg-gradient-to-r from-cyan-400 to-purple-500 transition-opacity duration-500 rounded-full z-[-1]"></span>
                 </Link>

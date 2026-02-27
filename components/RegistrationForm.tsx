@@ -78,7 +78,6 @@ export function RegistrationForm() {
             <div className="p-[25px] bg-[#11111a] border-b border-white/5 relative">
                 <p className="text-[25px] font-medium text-white relative inline-block">
                     Registration
-                    <span className="absolute bottom-[-25px] left-0 w-[40px] h-[3px] bg-gradient-to-r from-[#00f3ff] to-[#9d00ff]"></span>
                 </p>
             </div>
 

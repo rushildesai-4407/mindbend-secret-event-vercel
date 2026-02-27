@@ -131,7 +131,6 @@ export default function AdminPage() {
                     <div>
                         <p className="text-[25px] font-medium text-white relative inline-block">
                             Admin Dashboard
-                            <span className="absolute bottom-[-10px] left-0 w-[40px] h-[3px] bg-gradient-to-r from-[#00f3ff] to-[#9d00ff]"></span>
                         </p>
                         <p className="text-neutral-500 mt-4 text-sm font-medium">Total Registered: <span className="text-white">{teams.length}</span></p>
                     </div>
